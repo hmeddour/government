@@ -1,6 +1,7 @@
 package com.meilleurtaux.government.service.impl;
 
 import com.meilleurtaux.government.client.GovernmentApiClient;
+import com.meilleurtaux.government.exception.BadRequestException;
 import com.meilleurtaux.government.model.Commune;
 import com.meilleurtaux.government.service.CommuneService;
 import feign.FeignException;
@@ -17,6 +18,9 @@ public class CommuneServiceImpl implements CommuneService {
 
     @Override
     public List<Commune> getCommunesByPostalCode(final String codePostal) throws FeignException {
+        if (!codePostal.matches("\\d{5}"))
+            throw new BadRequestException("Postal code should contain exactly 5 digits.");
+
         return governmentApiClient.getCommunesByPostalCode(codePostal);
     }
 }

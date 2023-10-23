@@ -1,5 +1,6 @@
 package com.meilleurtaux.government.resource;
 
+import com.meilleurtaux.government.exception.BadRequestException;
 import com.meilleurtaux.government.model.Commune;
 import com.meilleurtaux.government.service.impl.CommuneServiceImpl;
 import feign.FeignException;
@@ -23,7 +24,7 @@ public class CommuneController {
         try {
             List<Commune> communesByPostalCode = communeService.getCommunesByPostalCode(codePostal);
             return new ResponseEntity<>(communesByPostalCode, HttpStatus.OK);
-        } catch (FeignException.BadRequest e) {
+        } catch (BadRequestException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (FeignException.NotFound e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
